@@ -1,7 +1,31 @@
-﻿@page "/"
+﻿@page "/customers"
+@using Microsoft.EntityFrameworkCore
+@inject AppDbContext Db
+
+<h3>Customers</h3>
+
+<ul>
+    @foreach (var c in customers)
+    {
+        <li>@c.Name (@c.Email)</li>
+    }
+</ul>
+
+@code {
+    private List<Customer> customers = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await Db.Customers.ToListAsync();
+    }
+}
+
+
+
+<!--
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Astacus</h1>
 
-Welcome to your new app.
+Welcome to your new app.-->
