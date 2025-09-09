@@ -15,10 +15,10 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0-nanoserver-1809 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["/BlazorAppTest2/BlazorAppTest2.csproj", "/BlazorAppTest2/BlazorAppTest2"]
-RUN dotnet restore "/BlazorAppTest2/BlazorAppTest2.csproj"
+RUN dotnet restore "/BlazorAppTest2.csproj"
 COPY . .
 WORKDIR "/src/BlazorAppTest2"
-RUN dotnet build "./BlazorAppTest2.csproj" -c %BUILD_CONFIGURATION% -o /app/build
+RUN dotnet build "./BlazorAppTest2/BlazorAppTest2.csproj" -c %BUILD_CONFIGURATION% -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish

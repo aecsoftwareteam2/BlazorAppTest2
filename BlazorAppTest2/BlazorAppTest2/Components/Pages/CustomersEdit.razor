@@ -1,0 +1,58 @@
+﻿@page "/customers/edit/{Id:int}"
+@using BlazorAppTest2.Data
+@using BlazorAppTest2.Models
+@inject AppDbContext Db
+@inject NavigationManager Nav
+
+<h3>Edit Customer</h3>
+
+@if (model is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="@model" OnValidSubmit="SaveAsync">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <InputText class="form-control" @bind-Value="model.Name" />
+            <ValidationMessage For="@(() => model.Name)" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <InputText class="form-control" @bind-Value="model.Email" />
+            <ValidationMessage For="@(() => model.Email)" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone</label>
+            <InputText class="form-control" @bind-Value="model.Phone" />
+            <ValidationMessage For="@(() => model.Phone)" />
+        </div>
+
+        <button class="btn btn-primary me-2" type="submit">Save</button>
+        <button class="btn btn-secondary" type="button" @onclick='() => Nav.NavigateTo("/customers")'>Cancel</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private Customer? model;
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = await Db.Customers.FindAsync(Id);
+        if (model is null)
+            Nav.NavigateTo("/customers");
+    }
+
+    private async Task SaveAsync()
+    {
+        await Db.SaveChangesAsync();
+        Nav.NavigateTo("/customers");
+    }
+}

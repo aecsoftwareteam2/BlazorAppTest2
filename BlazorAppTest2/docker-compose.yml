@@ -10,8 +10,9 @@ services:
   blazorapptest2:
     build: .
     ports:
-      - "5000:80"
-    depends_on:
-      - sqlserver
+      - "5000:8080"    
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BlazorDb;User Id=sa;Password=@Astacus789;TrustServerCertificate=True;
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BlazorAppTest2Db;User Id=sa;Password=@Astacus789;TrustServerCertificate=True;
+    depends_on:
+    - sqlserver

@@ -1,5 +1,45 @@
-//using BlazorAppTest2.Data;
-using BlazorAppTest2;
+using BlazorAppTest2.Data;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// EF Core + SQL Server
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
+//app.MapFallbackToPage("/Pages/Home");
+//app.MapFallbackToFile("index.html");
+//app.MapFallbackToPage("index.html");
+
+// Optional: auto-apply migrations on startup (safe for dev)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
+app.Run();
+
+
+
+/*using BlazorAppTest2.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -13,8 +53,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 app.MapBlazorHub();
-app.MapFallbackToPage("/Home");//_Host
-app.Run();
+app.MapFallbackToPage("_Host");//_Host
+app.Run();*/
 
 
 

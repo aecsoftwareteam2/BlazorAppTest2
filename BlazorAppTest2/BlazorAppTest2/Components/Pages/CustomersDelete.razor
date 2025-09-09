@@ -1,0 +1,42 @@
+﻿@page "/customers/delete/{Id:int}"
+@using BlazorAppTest2.Data
+@using BlazorAppTest2.Models
+@inject AppDbContext Db
+@inject NavigationManager Nav
+
+<h3>Delete Customer</h3>
+
+@if (customer is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="alert alert-warning">
+        Are you sure you want to delete <strong>@customer.Name</strong>?
+    </div>
+    <button class="btn btn-danger me-2" @onclick="DeleteAsync">Delete</button>
+    <button class="btn btn-secondary" @onclick='() => Nav.NavigateTo("/customers")'>Cancel</button>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private Customer? customer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customer = await Db.Customers.FindAsync(Id);
+        if (customer is null)
+            Nav.NavigateTo("/customers");
+    }
+
+    private async Task DeleteAsync()
+    {
+        if (customer is not null)
+        {
+            Db.Customers.Remove(customer);
+            await Db.SaveChangesAsync();
+        }
+        Nav.NavigateTo("/customers");
+    }
+}
