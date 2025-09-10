@@ -1,7 +1,7 @@
 using BlazorAppTest2.Data;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+//var builder = WebApplication.CreateBuilder(args);
 
 // EF Core + SQL Server
 builder.Services.AddDbContext<AppDbContext>(options =>
