@@ -11,7 +11,7 @@ namespace BlazorAppTest2.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Customers",
+                name: "Customers2",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)

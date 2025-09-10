@@ -23,7 +23,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+//app.MapFallbackToPage("/_Host");
 //app.MapFallbackToPage("/Pages/Home");
 //app.MapFallbackToFile("index.html");
 //app.MapFallbackToPage("index.html");
